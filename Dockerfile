@@ -24,12 +24,29 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Build and install OpenSSL 1.1.1
+RUN cd /tmp \
+    && wget https://www.openssl.org/source/openssl-1.1.1q.tar.gz \
+    && tar -xzf openssl-1.1.1q.tar.gz \
+    && cd openssl-1.1.1q \
+    && ./config --prefix=/usr/local/openssl --openssldir=/usr/local/openssl shared zlib \
+    && make \
+    && make install \
+    && cd / \
+    && rm -rf /tmp/openssl-1.1.1q /tmp/openssl-1.1.1q.tar.gz
+
+# Set OpenSSL environment variables for Python to find it
+ENV LDFLAGS="-L/usr/local/openssl/lib"
+ENV CPPFLAGS="-I/usr/local/openssl/include"
+ENV LD_LIBRARY_PATH="/usr/local/openssl/lib:$LD_LIBRARY_PATH"
+ENV PKG_CONFIG_PATH="/usr/local/openssl/lib/pkgconfig"
+
 # Download, compile and install Python 3.8.6 from source
 RUN cd /tmp \
     && wget https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tgz \
     && tar -xzf Python-3.8.6.tgz \
     && cd Python-3.8.6 \
-    && ./configure --enable-optimizations \
+    && ./configure --enable-optimizations --with-openssl=/usr/local/openssl \
     && make -j$(nproc) \
     && make altinstall \
     && cd / \
@@ -49,6 +66,10 @@ RUN cd /tmp \
     && make install \
     && cd / \
     && rm -rf /tmp/cmake-4.0.0 /tmp/cmake-4.0.0.tar.gz /usr/local/share/cmake-4.0/Help/
+
+# Make sure the Python SSL module works
+RUN ldconfig && \
+    python3 -c "import ssl; print(ssl.OPENSSL_VERSION)"
 
 # Verify installations
 RUN python3 --version && \
