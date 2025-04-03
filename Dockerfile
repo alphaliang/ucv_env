@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     liblzma-dev \
     tk-dev \
     libffi-dev \
+    uuid-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -42,11 +43,12 @@ ENV LD_LIBRARY_PATH="/usr/local/openssl/lib:$LD_LIBRARY_PATH"
 ENV PKG_CONFIG_PATH="/usr/local/openssl/lib/pkgconfig"
 
 # Download, compile and install Python 3.8.6 from source
+# Note: Removed --enable-optimizations flag to avoid memory corruption
 RUN cd /tmp \
     && wget https://www.python.org/ftp/python/3.8.6/Python-3.8.6.tgz \
     && tar -xzf Python-3.8.6.tgz \
     && cd Python-3.8.6 \
-    && ./configure --enable-optimizations --with-openssl=/usr/local/openssl \
+    && ./configure --with-openssl=/usr/local/openssl \
     && make -j$(nproc) \
     && make altinstall \
     && cd / \
