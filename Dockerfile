@@ -8,8 +8,6 @@ RUN apt-get update && apt-get install -y \
     wget \
     build-essential \
     software-properties-common \
-    gcc-4.8 \
-    g++-4.8 \
     libssl-dev \
     zlib1g-dev \
     libncurses5-dev \
@@ -25,10 +23,6 @@ RUN apt-get update && apt-get install -y \
     libffi-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-# Set gcc-4.8 and g++-4.8 as default
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 100 && \
-    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 100
 
 # Download, compile and install Python 3.8.6 from source
 RUN cd /tmp \
@@ -59,7 +53,6 @@ RUN cd /tmp \
 # Verify installations
 RUN python3 --version && \
     gcc --version && \
-    g++ --version && \
     cmake --version
 
 # Set working directory
