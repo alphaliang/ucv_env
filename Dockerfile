@@ -40,7 +40,7 @@ RUN cd /tmp \
     && tar -xzvf cmake-4.0.0.tar.gz \
     && cd cmake-4.0.0 \
     && ./bootstrap --prefix=/usr/local \
-    && make \
+    && make -j5\
     && make install \
     && cd / \
     && rm -rf /tmp/cmake-4.0.0 /tmp/cmake-4.0.0.tar.gz
