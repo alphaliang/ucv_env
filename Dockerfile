@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Update package lists and install necessary tools
 RUN apt-get update && apt-get install -y \
     wget \
+    curl \
     build-essential \
     software-properties-common \
     libssl-dev \
