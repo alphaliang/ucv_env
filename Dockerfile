@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y python3 python3-dev python3-pip \
 
 # Download, build, and install CMake 3.0.2 from source - all in a single layer
 RUN cd /tmp \
-    && wget https://cmake.org/files/v3.0/cmake-3.0.2.tar.gz \
+    && wget https://cmake.org/files/v4.0/cmake-4.0.0.tar.gz \
     && tar -xzvf cmake-3.0.2.tar.gz \
     && cd cmake-3.0.2 \
     && ./bootstrap --prefix=/usr/local \
