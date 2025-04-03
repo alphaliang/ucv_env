@@ -21,27 +21,29 @@ RUN apt-get update && apt-get install -y \
     libbz2-dev \
     libexpat1-dev \
     liblzma-dev \
-    tk-dev
+    tk-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set gcc-4.8 and g++-4.8 as default
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 100 && \
     update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 100
 
 # Install Python 3.4 (newest supported in Ubuntu 14.04)
-RUN apt-get install -y python3 python3-dev python3-pip
+RUN apt-get update && apt-get install -y python3 python3-dev python3-pip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Download and build CMake 3.0.2 from source
-WORKDIR /tmp
-RUN wget https://cmake.org/files/v3.0/cmake-3.0.2.tar.gz && \
-    tar -xzvf cmake-3.0.2.tar.gz && \
-    cd cmake-3.0.2 && \
-    ./bootstrap --prefix=/usr/local && \
-    make && \
-    make install
-
-# Clean up
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Download, build, and install CMake 3.0.2 from source - all in a single layer
+RUN cd /tmp \
+    && wget https://cmake.org/files/v3.0/cmake-3.0.2.tar.gz \
+    && tar -xzvf cmake-3.0.2.tar.gz \
+    && cd cmake-3.0.2 \
+    && ./bootstrap --prefix=/usr/local \
+    && make \
+    && make install \
+    && cd / \
+    && rm -rf /tmp/cmake-3.0.2 /tmp/cmake-3.0.2.tar.gz
 
 # Verify installations
 RUN python3 --version && \
