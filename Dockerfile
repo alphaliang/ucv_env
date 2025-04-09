@@ -74,6 +74,19 @@ RUN cd /tmp \
     && cd / \
     && rm -rf /tmp/cmake-4.0.0 /tmp/cmake-4.0.0.tar.gz
 
+# Download, build, and install GoogleTest
+RUN cd /tmp \
+    && wget https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip \
+    && unzip release-1.12.1.zip \
+    && cd googletest-release-1.12.1 \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && make -j$(nproc) \
+    && make install \
+    && cd / \
+    && rm -rf /tmp/googletest-release-1.12.1 /tmp/release-1.12.1.zip
+
 # Make sure the Python SSL module works and install requests
 RUN ldconfig && \
     python3 -c "import ssl; print(ssl.OPENSSL_VERSION)" && \
