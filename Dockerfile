@@ -82,7 +82,7 @@ RUN cd /tmp \
         && cd googletest-release-1.11.0 \
         && mkdir build \
         && cd build \
-        && cmake .. \
+        && cmake .. -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
         && make -j$(nproc) \
         && make install \
         && cd / \
