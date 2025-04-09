@@ -77,16 +77,16 @@ RUN cd /tmp \
 # Download, build, and install GoogleTest
     
 RUN cd /tmp \
-        && wget --verbose https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip \
-        && unzip release-1.12.1.zip \
-        && cd googletest-release-1.12.1 \
+        && wget   https://github.com/google/googletest/archive/refs/tags/release-1.11.0.zip \
+        && unzip release-1.11.0.zip \
+        && cd googletest-release-1.11.0 \
         && mkdir build \
         && cd build \
         && cmake .. \
         && make -j$(nproc) \
         && make install \
         && cd / \
-        && rm -rf /tmp/googletest-release-1.12.1 /tmp/release-1.12.1.zip
+        && rm -rf /tmp/googletest-release-1.11.0 /tmp/release-1.11.0.zip
 
 # Make sure the Python SSL module works and install requests
 RUN ldconfig && \
