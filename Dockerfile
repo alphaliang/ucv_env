@@ -77,7 +77,7 @@ RUN cd /tmp \
 # Make sure the Python SSL module works and install requests
 RUN ldconfig && \
     python3 -c "import ssl; print(ssl.OPENSSL_VERSION)" && \
-    python3 -m pip install --no-cache-dir requests yaml
+    python3 -m pip install --no-cache-dir requests pyyaml
 
 # Verify installations
 #RUN python3 --version && \
