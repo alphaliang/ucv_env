@@ -78,7 +78,7 @@ RUN cd /tmp \
     
 RUN cd /tmp \
         && wget --verbose https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip \
-        && unzip -v release-1.12.1.zip \
+        && unzip release-1.12.1.zip \
         && cd googletest-release-1.12.1 \
         && mkdir build \
         && cd build \
