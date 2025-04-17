@@ -94,9 +94,6 @@ RUN ldconfig && \
     python3 -m pip install --no-cache-dir requests pyyaml
 
 
-RUN apt-get update && apt-get install -y  librt-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
 # Verify installations
 #RUN python3 --version && \
 #    pip3 --version && \
